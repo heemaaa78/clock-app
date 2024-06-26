@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Clock</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <body>
+    <div id="container">
+      <h2>Alarm Clock</h2>
+      <br />
+      <div id="liveclock">
+        <h1 id="current_time">00:00:00</h1>
+      </div>
+      <div id="setAlarm">
+        <form>
+          <input
+            type="number"
+            id="hours"
+            min="0"
+            max="12"
+            placeholder="00"
+            required
+          />
+          <input
+            type="number"
+            id="minute"
+            min="0"
+            max="60"
+            placeholder="00"
+            required
+          />
+          <input
+            type="number"
+            id="sec"
+            min="0"
+            max="60"
+            placeholder="00"
+            required
+          />
+          <select id="am_pm">
+            <option value="am">am</option>
+            <option value="pm">pm</option>
+          </select>
+          <button type="submit" id="set-alarm">set Alarm</button>
+        </form>
+      </div>
+      <div id="list-alarm"></div>
+    </div>
+    <script src="clockface.js">
+      // alert("Hello JavaScript!!");
+    </script>
+  </body>
+</html>

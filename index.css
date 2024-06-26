@@ -1,0 +1,88 @@
+/* Reset default margin, padding, and box-sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container for the entire application */
+#container {
+  text-align: center;
+  width: 80%;
+  max-width: 700px;
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background with transparency */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Clock display styles */
+#liveclock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: #444;
+  border: 10px solid #666;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 3rem;
+}
+
+/* Set Alarm styles */
+#setAlarm {
+  margin-bottom: 20px;
+}
+
+#setAlarm form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#setAlarm input,
+#setAlarm select,
+#setAlarm button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #555;
+}
+
+#setAlarm input[type="number"],
+#setAlarm select {
+  width: 80px;
+}
+
+#setAlarm button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#setAlarm button:hover {
+  background-color: #0056b3;
+}
+
+/* Alarms list styles */
+#list-alarm {
+  text-align: left;
+}
