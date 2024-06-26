@@ -86,3 +86,31 @@ body {
 #list-alarm {
   text-align: left;
 }
+
+#list-alarm {
+  list-style-type: none;
+  padding: 0;
+}
+
+#list-alarm li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #504e4e;
+  border: 1px solid #1b1919;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: rgb(224, 212, 212);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
