@@ -5,16 +5,15 @@ const setAlarmButton = document.getElementById("set-alarm");
 const deleteAlarmButton = document.getElementById("delete-alarm");
 
 // Variables to store current time, alarm time, and alarms list
-let current_time = null;
 let alarms = [];
 
 // Function to display live clock and check for alarms
 function clockface() {
   setInterval(() => {
     const now = new Date();
-    current_time = now.toLocaleTimeString([], { hour12: false }); // Get current time in "HH:mm:ss" format
+    const current_time = now.toLocaleTimeString([], { hour12: false }); // Get current time in "HH:mm:ss" format
     clockfacedisplay.textContent = current_time;
-    alarm_checker();
+    alarm_checker(current_time); // Pass current time to alarm checker
   }, 1000); // Update every second
 }
 
@@ -72,12 +71,9 @@ function deleteAlarm(index) {
 }
 
 // Function to check if it's time for any alarms
-function alarm_checker() {
-  const now = new Date();
-  const currentTimeString = now.toLocaleTimeString([], { hour12: false }); // Get current time in "HH:mm:ss" format
-
+function alarm_checker(currentTime) {
   alarms.forEach((alarm, index) => {
-    if (currentTimeString === alarm) {
+    if (currentTime === alarm) {
       alert("Wake up buddy! It's time for your alarm: " + alarm);
       alarms.splice(index, 1); // Remove triggered alarm from list
       updateAlarmList();
