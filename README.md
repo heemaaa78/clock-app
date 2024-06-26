@@ -1,7 +1,5 @@
 # clock-app
 
-# JavaScript Clock App
-
 This is a simple JavaScript-based clock application that allows users to view the current time and set alarms. Alarms are persisted using `localStorage` for a seamless user experience.
 
 ## Features
