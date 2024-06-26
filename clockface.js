@@ -1,20 +1,28 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Selecting elements from the DOM
   const clockfacedisplay = document.getElementById("current_time");
   const alarmListDisplay = document.getElementById("list-alarm");
   const setAlarmButton = document.getElementById("set-alarm");
-  const deleteAlarmButton = document.getElementById("delete-alarm");
 
-  // Variables to store current time, alarm time, and alarms list
+  // Variables to store current time and alarms list
   let alarms = [];
 
   // Function to display live clock and check for alarms
   function clockface() {
     setInterval(() => {
       const now = new Date();
-      const current_time = now.toLocaleTimeString([], { hour12: false }); // Get current time in "HH:mm:ss" format
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const am_pm = hours >= 12 ? "PM" : "AM";
+      const twelveHourFormat = hours % 12 || 12; // Convert hour to 12-hour format
+
+      const current_time = `${twelveHourFormat}:${
+        minutes < 10 ? "0" + minutes : minutes
+      }:${seconds < 10 ? "0" + seconds : seconds} ${am_pm}`;
+
       clockfacedisplay.textContent = current_time;
-      alarm_checker(current_time); // Pass current time to alarm checker
+      alarm_checker(now); // Pass current time (as Date object) to alarm checker
     }, 1000); // Update every second
   }
 
@@ -57,9 +65,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Function to update the displayed list of alarms
   function updateAlarmList() {
-    alarmListDisplay.innerHTML = alarms
-      .map((alarm, index) => `<li>${alarm} <button onclick="deleteAlarm(${index})">Delete</button></li>`)
-      .join("");
+    alarmListDisplay.innerHTML = ""; // Clear existing list
+
+    alarms.forEach((alarm, index) => {
+      // Convert from 24-hour to 12-hour format for display
+      const [hours, minutes, seconds] = alarm.split(":");
+      let displayHours = parseInt(hours);
+      let am_pm = displayHours >= 12 ? "PM" : "AM";
+      displayHours = displayHours % 12;
+      displayHours = displayHours ? displayHours : 12; // Handle midnight (0 hours)
+
+      const alarmItem = document.createElement("li");
+      alarmItem.innerHTML = `${displayHours}:${minutes}:${seconds} ${am_pm} <button class="delete-btn">Delete</button>`;
+      alarmListDisplay.appendChild(alarmItem);
+    });
   }
 
   // Function to delete an alarm from the list
@@ -71,25 +90,37 @@ document.addEventListener("DOMContentLoaded", function() {
     localStorage.setItem("alarms", JSON.stringify(alarms));
   }
 
+  // Event listener for set alarm button
+  setAlarmButton.addEventListener("click", setAlarm);
+
+  // Event delegation for delete buttons
+  alarmListDisplay.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-btn")) {
+      const index = event.target.parentElement.dataset.index;
+      deleteAlarm(index);
+    }
+  });
+
   // Function to check if it's time for any alarms
   function alarm_checker(currentTime) {
     alarms.forEach((alarm, index) => {
-      if (currentTime === alarm) {
+      const [hours, minutes, seconds] = alarm.split(":");
+      const alarmTime = new Date(currentTime);
+      alarmTime.setHours(parseInt(hours));
+      alarmTime.setMinutes(parseInt(minutes));
+      alarmTime.setSeconds(parseInt(seconds));
+
+      if (
+        currentTime.getHours() === alarmTime.getHours() &&
+        currentTime.getMinutes() === alarmTime.getMinutes() &&
+        currentTime.getSeconds() === alarmTime.getSeconds()
+      ) {
         alert("Wake up buddy! It's time for your alarm: " + alarm);
         alarms.splice(index, 1); // Remove triggered alarm from list
         updateAlarmList();
         localStorage.setItem("alarms", JSON.stringify(alarms));
       }
     });
-  }
-
-  // Event listeners for buttons
-  if (setAlarmButton) {
-    setAlarmButton.addEventListener("click", setAlarm);
-  }
-
-  if (deleteAlarmButton) {
-    deleteAlarmButton.addEventListener("click", deleteAlarm);
   }
 
   // Initialize clock display and load alarms from local storage
